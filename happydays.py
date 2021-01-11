@@ -4,17 +4,30 @@ from newspaper import Article
 import pandas as pd
 from datetime import date
 
+from afinn import Afinn
+af = Afinn()
+
 PATH = "C:\Program Files (x86)\chromedriver_win32\chromedriver.exe"
 #driver = webdriver.Chrome(PATH)
 print(date.today().strftime('%m/%d/%Y'))
 googlenews=GoogleNews(start= str(date.today().strftime('%m/%d/%Y')),end=str(date.today().strftime('%m/%d/%Y')))
-topic = input('what topic would u like to know about')
-googlenews.search(topic)
-googlenews.get_page()
-googlenews.get_page(2)
+#topic = input('what topic would u like to know about')
+googlenews.search(' ')
+#googlenews.get_page(2)
 a = googlenews.results()
+
+newList = []
 for i in a:
-    print(i['title'], i['link'])
+    newList.append(i['title'])
+for x in newList:
+    print(x)
+    score = af.score(x) 
+    if score > 0:
+        print('positive')
+    elif score == 0:
+        print('neutral')
+    else:
+        print('negative')
 
 k=input("press close to exit") 
 
